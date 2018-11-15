@@ -42,7 +42,8 @@ def _handle_sigint(signum, frame):
 
 
 _exc_info = None
-_prev_handler = signal.signal(signal.SIGINT, _handle_sigint)
+if os.environ.get('MESOS_INTHANDLER', False):
+    _prev_handler = signal.signal(signal.SIGINT, _handle_sigint)
 LENGTH_PATTERN = re.compile(br'\d+\n')
 logger = logging.getLogger(__name__)
 PIPE_BUF = getattr(select, 'PIPE_BUF', 4096)
